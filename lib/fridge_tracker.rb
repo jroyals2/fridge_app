@@ -96,14 +96,19 @@ end
 def drink_some
     puts "which fridge did you want to drink from to?"
     id = get_id
-    drinks = Drink.where(fridge_id: id)
+    drinks = Fridge.find(id).drinks
     drinks.each do |drink|
         puts "This fridge has #{drink.name} in the amount of #{drink.size} oz and has a unique id of #{drink.id}"
     end
     puts "Please type the unique id of the drink to comsume some of"
-    drink_id = gets.chomp
-    this_drink = Drink.where(id: drink_id)
-    puts "this drink has #{this_drink}"
+    drink_id = gets.chomp.to_i
+    puts "How much are you drinking, remember to leave some for others!"
+    ounces = gets.chomp.to_i
+    this_drink = Drink.find(drink_id)
+    ounce = this_drink.size
+    math_oz = (ounce - ounces)
+    this_drink.update(size: math_oz)
+    puts "Gulp gulp you had #{ounces} of the total #{ounce} leaving #{math_oz} ounces left"
 end
 def drink_all
     puts "which fridge did you want to drink from to?"
